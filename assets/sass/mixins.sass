@@ -1,0 +1,22 @@
+@import 'variables'
+
+@function rem($size)
+  $rem-size: $size / $base-fsize
+  @return #{$rem-size}rem
+
+=hidden($from: 0, $to: inf)
+  @include respond($from, $to)
+    display: none
+
+// sass-lint:disable indentation
+=respond($from: 0, $to: inf)
+  @if $from != 0
+    @if $to != inf
+      @media (min-width: $from + 'px') and (max-width: ($to - 1) + 'px')
+        @content
+    @else
+      @media (min-width: $from + 'px')
+        @content
+  @else
+    @media (max-width: ($to - 1) + 'px')
+      @content

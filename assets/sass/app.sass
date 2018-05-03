@@ -1,0 +1,19 @@
+@import 'variables'
+
+*, *::after, *::before
+  box-sizing: border-box
+
+html
+  font-size: $base-fsize
+
+body
+  position: relative
+  min-width: 320px
+  color: $grey
+  font-size: $base-fsize
+  line-height: 1.6
+  overflow-x: hidden
+
+.blur
+  overflow: hidden
+  filter: blur(10px)
