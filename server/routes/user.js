@@ -24,10 +24,9 @@ export default (app) => {
 
     const { state } = context.request.body
     const uuid = context.session.uuid
+    const doc = db.collection('administration-users').doc(uuid)
 
-    await db.collection('administration-users').doc(uuid).update({
-      'appearance.navigation': state
-    })
+    await doc.update({ 'appearance.navigation': state })
 
     context.status = 200
   })
@@ -71,20 +70,20 @@ export default (app) => {
 
     const { theme, color } = context.request.body
     const uuid = context.session.uuid
-    const user = db.collection('administration-users').doc(uuid)
+    const doc = db.collection('administration-users').doc(uuid)
     let response = {
       status: false,
       message: 'Error'
     }
 
-    response = await user.update({ 'appearance.theme': theme }).catch(error => {
+    response = await doc.update({ 'appearance.theme': theme }).catch(error => {
       return {
         status: false,
         message: error.message
       }
     })
 
-    response = await user.update({ 'appearance.color': color }).then(response => {
+    response = await doc.update({ 'appearance.color': color }).then(() => {
       return {
         status: true,
         message: 'Theme successfully saved'

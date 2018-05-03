@@ -1,17 +1,17 @@
 export default function ({ store, redirect, route }) {
-  const userExist = !!store.state.user.data
+  const user = store.getters['user/GET']
 
-  if (userExist && route.path === '/') {
+  if (user && route.path === '/') {
     redirect('/profile')
   }
 
-  if (!userExist && isAdminRoute(route)) {
+  if (!user && isAdminRoute(route)) {
     redirect('/')
   }
 }
 
 function isAdminRoute (route) {
-  if (route.matched.some(record => record.path.includes('/profile'))) {
-    return true
-  }
+  const matched = route.matched.some(record => record.path.includes('/profile'))
+
+  return matched
 }
