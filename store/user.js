@@ -17,18 +17,17 @@ export const getters = {
 }
 
 export const actions = {
-  async signin ({ commit }, data) {
-    let authStatus = await axios.post('/api/auth/signin', data)
-    let user = null
+  async signin (context, payload) {
+    const response = await axios.post('/api/auth/signin', payload)
+    const { uuid, status, message } = response.data
 
-    authStatus = authStatus.data.data.authStatus
+    if (status) {
+      const user = await axios.post('/api/user/get', { uuid })
 
-    if (authStatus.status) {
-      user = await axios.post('/api/user/get', { uuid: authStatus.uuid })
-      commit('SET', user.data.data.user)
+      context.commit('SET', user.data)
     }
 
-    return authStatus
+    return { status, message }
   },
 
   async signout ({ commit }, { router }) {
@@ -40,7 +39,7 @@ export const actions = {
   async changePassword ({ commit }, password) {
     const response = await axios.post('/api/user/change_password', { password })
 
-    return response.data.data.response
+    return response.data
   },
 
   async changeTheme ({ state, commit }) {
@@ -49,6 +48,6 @@ export const actions = {
       color: state.data.appearance.color
     })
 
-    return response.data.data.response
+    return response.data
   }
 }

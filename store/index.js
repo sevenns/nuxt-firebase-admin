@@ -8,7 +8,7 @@ export const actions = {
 
     if (uuid) {
       const user = await axios.post('/api/user/get', { uuid })
-      commit('user/SET', user.data.data.user)
+      commit('user/SET', user.data)
     }
   }
 }

@@ -17,13 +17,6 @@ export default (app) => {
       if (context.status === 404 && context.res.headersSent === false) {
         context.throw(404)
       }
-
-      if (context.status === 200 && context.res.headersSent === false) {
-        context.body = {
-          status: 200,
-          data: context.body
-        }
-      }
     } catch (error) {
       context.status = error.status || 500
 

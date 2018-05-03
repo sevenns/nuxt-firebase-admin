@@ -9,15 +9,19 @@ export default (app) => {
   router.post('/get', async (context, next) => {
     const { uuid } = context.request.body
     const doc = db.collection('administration-users').doc(uuid)
-    const user = await doc.get().then(response => {
-      return response.data()
-    })
+    const user = await doc.get().then(snap => snap.data())
 
     context.type = 'json'
-    context.body = { user }
+    context.body = user
   })
 
   router.post('/change_navigation_state', async (context, next) => {
+    if (!context.session.uuid) {
+      context.status = 403
+      context.body = { message: 'Access denied!' }
+      return
+    }
+
     const { state } = context.request.body
     const uuid = context.session.uuid
 
@@ -25,11 +29,16 @@ export default (app) => {
       'appearance.navigation': state
     })
 
-    context.type = 'json'
-    context.body = { messsage: true }
+    context.status = 200
   })
 
   router.post('/change_password', async (context, next) => {
+    if (!context.session.uuid) {
+      context.status = 403
+      context.body = { message: 'Access denied!' }
+      return
+    }
+
     const { password } = context.request.body
     const uuid = context.session.uuid
     let response = {
@@ -37,7 +46,7 @@ export default (app) => {
       message: 'Error'
     }
 
-    response = await admin.auth().updateUser(uuid, { password }).then(response => {
+    response = await admin.auth().updateUser(uuid, { password }).then(() => {
       return {
         status: true,
         message: 'Password successfully saved'
@@ -50,10 +59,16 @@ export default (app) => {
     })
 
     context.type = 'json'
-    context.body = { response }
+    context.body = response
   })
 
   router.post('/change_theme', async (context, next) => {
+    if (!context.session.uuid) {
+      context.status = 403
+      context.body = { message: 'Access denied!' }
+      return
+    }
+
     const { theme, color } = context.request.body
     const uuid = context.session.uuid
     const user = db.collection('administration-users').doc(uuid)
@@ -82,7 +97,7 @@ export default (app) => {
     })
 
     context.type = 'json'
-    context.body = { response }
+    context.body = response
   })
 
   return router.middleware()
