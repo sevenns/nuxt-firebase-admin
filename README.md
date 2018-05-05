@@ -23,4 +23,4 @@ $ npm run build
 $ npm start
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://nuxtjs.org/guide) and [Firebase docs](https://firebase.google.com/docs).
+For detailed explanation on how things work, checkout the [Nuxt.js docs](https://nuxtjs.org/guide) and [Firebase docs](https://firebase.google.com/docs/web/setup).
