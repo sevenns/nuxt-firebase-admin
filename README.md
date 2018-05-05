@@ -1,14 +1,12 @@
-# Rep in work...
-
-# Firebase administration tools
+### - Firebase administration tools
 
 > Administration tools for Firebase project with Nuxt.js
 
-# Requirements
+### - Requirements
 
 You need [nodejs](https://nodejs.org/en/) with npm
 
-## Build Setup
+### - Build Setup
 
 ``` bash
 # install dependencies
@@ -25,4 +23,4 @@ $ npm run build
 $ npm start
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://nuxtjs.org/guide).
+For detailed explanation on how things work, checkout the [Nuxt.js docs](https://nuxtjs.org/guide) and [Firebase docs](https://firebase.google.com/docs).
