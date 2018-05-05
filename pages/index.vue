@@ -4,7 +4,7 @@ div
   v-card.elevation-6
     v-card-title
       v-layout(justify-center)
-        .display-1.orange--text Administration tools
+        .display-1(:class='getTextColor') Administration tools
     v-card-text
       v-form(
         v-model='valid',
@@ -15,7 +15,7 @@ div
         v-text-field(
           prepend-icon='mail', label='E-mail',
           v-model='email', :rules='rules.email',
-          required, color='orange'
+          required, :color='getColor'
         )
         v-text-field(
           label='Password', hint='At least 6 characters',
@@ -25,14 +25,14 @@ div
           :type="passwordHidden ? 'password' : 'text'",
           counter='20', prepend-icon='lock',
           required, :rules='rules.password',
-          color='orange'
+          :color='getColor'
         )
 
     v-card-title
       v-spacer
       v-btn(
         outline,
-        color='orange',
+        :color='getColor',
         :loading='isLoading',
         @click='signin',
         :disabled='!valid'
@@ -43,7 +43,7 @@ div
   
   v-snackbar(
     v-model='snackbar.state',
-    top,
+    top, :color='getSnackbarColor',
     multi-line
   )
     span {{ snackbar.message }}
@@ -54,8 +54,20 @@ div
 
 <script>
 
+import axios from '~/plugins/axios'
+import { mapGetters } from 'vuex'
+
 export default {
-  layout: 'centered',
+  layout: 'index',
+
+  async fetch ({ store }) {
+    const url = '/api/settings/get/defaults/appearance'
+    const response = await axios.get(url)
+
+    if (response.data) {
+      store.commit('defaults/SET_APPEARANCE', response.data)
+    }
+  },
 
   data () {
     return {
@@ -79,6 +91,40 @@ export default {
           (v) => !!v || 'Password is required',
           (v) => (v && v.length >= 6) || 'Password must be at least 6 characters'
         ]
+      }
+    }
+  },
+
+  computed: {
+    ...mapGetters({ appearance: 'defaults/GET_APPEARANCE' }),
+
+    getColor () {
+      const cookiesColor = this.$cookies.get('color')
+
+      return !cookiesColor ? this.appearance.color : cookiesColor
+    },
+
+    getTextColor () {
+      const cookiesColor = this.$cookies.get('color')
+
+      if (cookiesColor) {
+        const first = cookiesColor.split(' ')[0]
+        const second = cookiesColor.split(' ')[1]
+
+        return second ? `${first}--text text--${second}` : `${first}--text`
+      } else {
+        return `${this.appearance.color}--text`
+      }
+    },
+
+    getSnackbarColor () {
+      const cookiesTheme = this.$cookies.get('theme')
+      const cookiesColor = this.$cookies.get('color')
+
+      if (cookiesTheme !== 'Dark') {
+        return cookiesColor
+      } else {
+        return ''
       }
     }
   },

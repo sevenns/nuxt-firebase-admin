@@ -3,6 +3,8 @@ module.exports = {
     HOST_URL: process.env.HOST_URL || 'http://localhost:8080'
   },
 
+  modules: ['cookie-universal-nuxt'],
+
   router: { middleware: 'authenticated' },
   loading: 'components/PageLoader.vue',
 

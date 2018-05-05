@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "cookie-universal-nuxt": "^2.0.1",
     "cross-env": "^5.1.4",
     "firebase": "^4.13.1",
     "firebase-admin": "^5.12.0",

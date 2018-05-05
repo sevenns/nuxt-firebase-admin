@@ -43,10 +43,18 @@ export const actions = {
   },
 
   async changeTheme ({ state, commit }) {
+    const currentTheme = state.data.appearance.theme
+    const currentColor = state.data.appearance.color
+
     const response = await axios.post('/api/user/change_theme', {
-      theme: state.data.appearance.theme,
-      color: state.data.appearance.color
+      theme: currentTheme,
+      color: currentColor
     })
+
+    if (response.data.status) {
+      this.$cookies.set('theme', currentTheme, { maxAge: 604800 })
+      this.$cookies.set('color', currentColor, { maxAge: 604800 })
+    }
 
     return response.data
   }
