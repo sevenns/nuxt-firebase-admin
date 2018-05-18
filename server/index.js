@@ -2,9 +2,9 @@
 
 import Koa from 'koa'
 import { Nuxt, Builder } from 'nuxt'
-import config from './config'
-import middlewares from './middlewares'
-import nuxtConfig from '../nuxt.config.js'
+import config from '~/server/config'
+import middlewares from '~/server/middlewares'
+import nuxtConfig from '~/nuxt.config.js'
 
 async function start () {
   const app = new Koa()

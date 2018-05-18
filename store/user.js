@@ -31,9 +31,9 @@ export const actions = {
   },
 
   async signout ({ commit }, { router }) {
-    await axios.get('/api/auth/signout')
-    router.push('/')
+    await axios.post('/api/auth/signout')
     commit('SET', null)
+    router.push('/')
   },
 
   async changePassword ({ commit }, password) {

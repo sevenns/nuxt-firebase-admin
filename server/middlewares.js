@@ -1,14 +1,14 @@
 'use strict'
 
-import serve from 'koa-static';
-import bodyParser from 'koa-bodyparser';
-import session from 'koa-session';
-import config from './config';
-import routes from './routes';
-import mount from 'koa-mount';
+import serve from 'koa-static'
+import bodyParser from 'koa-bodyparser'
+import session from 'koa-session'
+import config from '~/server/config'
+import routes from '~/server/routes'
+import mount from 'koa-mount'
 
 export default (app) => {
-  app.keys = config.session.secrets;
+  app.keys = config.session.secrets
 
   app.use(async (context, next) => {
     try {
@@ -30,10 +30,5 @@ export default (app) => {
   app.use(bodyParser())
   app.use(serve(config.staticDir))
   app.use(session(config.session.config, app))
-
-  for (const route in routes) {
-    const middleware = routes[route]
-
-    app.use(mount(`/api/${route}`, middleware(app)))
-  }
+  app.use(mount('/api', routes()))
 }

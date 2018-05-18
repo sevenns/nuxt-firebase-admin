@@ -2,8 +2,8 @@
 
 import Firebase from 'firebase'
 import * as Admin from 'firebase-admin'
-import config from './config'
-import * as key from '../secret.json'
+import config from '~/server/config'
+import * as key from '~/secret.json'
 import 'firebase/firestore'
 
 Admin.initializeApp({
