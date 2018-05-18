@@ -5,7 +5,7 @@ export default {
   staticDir: '/static',
 
   session: {
-    secret: 'your awesome secret',
+    secrets: ['your-first-secret', 'your-second-secret'],
     config: {
       key: 'koa:sess',
       maxAge: 86400000

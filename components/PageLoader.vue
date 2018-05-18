@@ -18,7 +18,10 @@ export default {
     }
   },
 
-  computed: mapGetters({ user: 'user/GET' }),
+  computed: mapGetters({
+    user: 'user/GET',
+    appearance: 'defaults/GET_APPEARANCE'
+  }),
 
   methods: {
     start () { this.loading = true },
@@ -28,23 +31,26 @@ export default {
     },
 
     generateLoaderColor (user) {
-      let theme = 'dark'
+      const cookiesTheme = this.$cookies.get('theme')
+      let theme = !cookiesTheme ? this.appearance.theme.toLowerCase() : cookiesTheme.toLowerCase()
 
       if (user) {
         theme = user.appearance.theme.toLowerCase()
       }
 
       return {
-          'background-color': theme === 'light' ? '#fafafa' : '#303030'
-        }
+        'background-color': theme === 'light' ? '#fafafa' : '#303030'
+      }
     },
 
     generateCircleColor (user) {
-      let color = 'orange'
+      const cookiesColor = this.$cookies.get('color')
+      let color = !cookiesColor ? this.appearance.color : cookiesColor
 
       if (user) {
         color = user.appearance.color
       }
+
       return color
     }
   }

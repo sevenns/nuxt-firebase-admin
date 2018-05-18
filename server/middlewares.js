@@ -1,30 +1,27 @@
 'use strict'
 
-import serve from 'koa-static'
-import bodyParser from 'koa-bodyparser'
-import session from 'koa-session'
-import config from './config'
-import routes from './routes'
-import mount from 'koa-mount'
+import serve from 'koa-static';
+import bodyParser from 'koa-bodyparser';
+import session from 'koa-session';
+import config from './config';
+import routes from './routes';
+import mount from 'koa-mount';
 
 export default (app) => {
-  app.keys = [config.session.secret]
+  app.keys = config.session.secrets;
 
   app.use(async (context, next) => {
     try {
-      await next()
+      await next();
 
       if (context.status === 404 && context.res.headersSent === false) {
-        context.throw(404)
+        context.throw(404);
       }
     } catch (error) {
       context.status = error.status || 500
 
       context.type = 'json'
-      context.body = {
-        status: context.status,
-        message: error.message
-      }
+      context.body = error.message
 
       context.app.emit('error', error, context)
     }

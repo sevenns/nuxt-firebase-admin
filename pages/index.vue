@@ -121,11 +121,7 @@ export default {
       const cookiesTheme = this.$cookies.get('theme')
       const cookiesColor = this.$cookies.get('color')
 
-      if (cookiesTheme !== 'Dark') {
-        return cookiesColor
-      } else {
-        return ''
-      }
+      return cookiesTheme ? cookiesColor : this.appearance.color
     }
   },
 
